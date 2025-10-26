@@ -16,7 +16,7 @@ router.get("/getbyid/:id", usermanagement.getbyid);
 
 //auth controller
 router.post("/register", Authmanagement.register);
-
+router.post("/login", Authmanagement.login);
 
 
 module.exports = router;

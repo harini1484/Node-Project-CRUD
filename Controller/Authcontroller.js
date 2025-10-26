@@ -17,6 +17,22 @@ const register = async (req, res) => {
     }
     }
 
+    const login =async(req,res) => {
+        try{
+            const {email,password}= req.body
+        const user= await Authmodel.findOne({email});
+        if(!user){
+            return res.json({message : "User not found"})
+        }
+        const ismatch = await bcrypt.compare(password, user.password);
+        if(!ismatch){
+            return res.json({message : "Invalid password"})
+        }res.json({message : "Login Successful"});
+
+        }catch (error){
+            console.log(error);
+        }
+        }
     module.exports = {
-    register
+    register,login
     }
