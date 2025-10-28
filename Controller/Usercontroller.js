@@ -22,8 +22,24 @@ const adduser = async (req, res) => {
 
 const getuser = async (req, res) => {
   try {
-    const users = await usermodel.find();
-    res.json(users);
+    const page = parseInt(req.params.page) || 1;
+    const limit = parseInt(req.params.limit) || 2;
+const skip =(page -  1) * limit;
+const search = req.query.search;
+let filter = {};
+if (search) {
+  filter = {
+    $or: [
+      {name: { $regex: search,$options : 'i' }},
+      {email: { $regex: search,$options: 'i' }}]
+}};
+    const userdata = await usermodel.find(filter).skip(skip).limit(limit);
+    const totaluser= await usermodel.countDocuments(filter);
+    res.json({
+      data:userdata,
+    currentpage:page,
+    TotalCount:totaluser
+    });
   } catch (error) {
     res.json({ error });
   }
