@@ -2,10 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const userRoutes = require('./Routes/Userroutes');
-
-const app = express(); 
-
-
+const cors = require("cors");
+const app=express();
 app.use(bodyparser.json());
 
 mongoose.connect('mongodb://localhost:27017/usermanagement');
@@ -19,6 +17,11 @@ db.once('open', () => {
   console.log("Database connected successfully");
 });
 
+app.use(bodyparser.json());
+app.use(cors({
+  origin:'http://localhost:3000',
+}))
+app.use("/uploads",express.static('uploads'));
 app.use("/", userRoutes);
 
 const PORT = 5000;

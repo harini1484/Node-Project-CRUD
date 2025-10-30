@@ -1,4 +1,5 @@
 const usermodel = require("../Model/Usermodel");
+const imagemodel=require("../Model/Imagemodel");
 const { adduserschema } = require("../Validation/Uservalidation");
 
 const adduser = async (req, res) => {
@@ -72,4 +73,16 @@ const getbyid = async (req, res) => {
   }
 };
 
-module.exports = { adduser, getuser, updateuser, deleteuser, getbyid };
+const uploadfile = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.json({ message: "No file uploaded" });
+    }
+    res.json({ message: "File uploaded successfully", file: req.file });
+  } catch (error) {
+    res.json({ message: Error });
+  }
+};
+
+
+module.exports = { adduser, getuser, updateuser, deleteuser, getbyid, uploadfile };

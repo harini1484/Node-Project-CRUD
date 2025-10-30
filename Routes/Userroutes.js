@@ -4,6 +4,8 @@ const router = express.Router();
 
 const usermanagement = require("../Controller/Usercontroller");
 const Authmanagement = require("../Controller/Authcontroller");
+const { upload } = require("../Middleware/Upload");
+
 
 //user controller
 router.post("/adduser", usermanagement.adduser);
@@ -18,5 +20,8 @@ router.get("/getbyid/:id", usermanagement.getbyid);
 router.post("/register", Authmanagement.register);
 router.post("/login", Authmanagement.login);
 
+//images
+
+router.post("/upload", upload.single('file'), usermanagement.uploadfile);
 
 module.exports = router;
